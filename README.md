@@ -4,17 +4,15 @@ This is a Flutter application developed as part of Module 5 assessment.
 
 ## 📸 App Screenshots
 
-### 🔐 Login Screen
-![Login](screenshots/login.png)
+| 🔐 Login Screen | 📝 Signup Screen |
+|----------------|-----------------|
+| ![](screenshots/login.png) | ![](screenshots/signup.png) |
 
-### 📝 Signup Screen
-![Signup](screenshots/signup.png)
+| 🏠 Dashboard | 🎮 Play Quiz |
+|--------------|--------------|
+| ![](screenshots/dashboard.png) | ![](screenshots/playquiz.png) |
 
-### 🏠 Dashboard
-![Dashboard](screenshots/dashboard.png)
+| 📖 Read Questions |
+|------------------|
+| ![](screenshots/readquestions.png) |
 
-### 🎮 Play Quiz
-![Play Quiz](screenshots/playquiz.png)
-
-### 📖 Read Questions
-![Read Questions](screenshots/readquestions.png)
