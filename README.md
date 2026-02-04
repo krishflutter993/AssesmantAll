@@ -11,3 +11,7 @@
   <img src="screenshots/readquestions.png" width="250" />
   
 </p>
+
+## 📦 Download APK
+
+👉 [Download Signed APK](apk/app-release.apk)
