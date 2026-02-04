@@ -180,9 +180,9 @@ class _PlayQuizScreenState extends State<PlayQuizScreen> {
       // next question
       setState(() {
         index++;
-        selected = null; // reset selected option
-        answerColor = null; // reset background color
-        answered = false; // allow next question to be tapped
+        selected = null;
+        answerColor = null;
+        answered = false;
       });
     } else {
       // quiz finished

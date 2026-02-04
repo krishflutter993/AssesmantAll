@@ -9,7 +9,6 @@ class DashboardScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // 👇 Dashboard के features को एक लिस्ट में define करें
     final List<_DashboardItem> items = [
       _DashboardItem(
         title: 'Play Quiz',
@@ -74,15 +73,14 @@ class DashboardScreen extends StatelessWidget {
             ),
             const SizedBox(height: 20),
 
-            // 👇 GridView.builder
             Expanded(
               child: GridView.builder(
                 itemCount: items.length,
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2, // 2 items per row
+                  crossAxisCount: 2,
                   mainAxisSpacing: 16,
                   crossAxisSpacing: 16,
-                  childAspectRatio: 1, // square tiles
+                  childAspectRatio: 1,
                 ),
                 itemBuilder: (context, index) {
                   final item = items[index];
@@ -138,7 +136,6 @@ class DashboardScreen extends StatelessWidget {
   }
 }
 
-// 👇 Dashboard Item Model
 class _DashboardItem {
   final String title;
   final String subtitle;
@@ -155,7 +152,6 @@ class _DashboardItem {
   });
 }
 
-// 👇 Color extension to darken colors for text
 extension ColorExtension on Color {
   Color darken([double amount = .2]) {
     final hsl = HSLColor.fromColor(this);
