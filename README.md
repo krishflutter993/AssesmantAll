@@ -1,16 +1,20 @@
-# databas1
+# Flutter Assessment App
 
-A new Flutter project.
+This is a Flutter application developed as part of Module 5 assessment.
 
-## Getting Started
+## 📸 App Screenshots
 
-This project is a starting point for a Flutter application.
+### 🔐 Login Screen
+![Login](screenshots/login.png)
 
-A few resources to get you started if this is your first Flutter project:
+### 📝 Signup Screen
+![Signup](screenshots/signup.png)
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+### 🏠 Dashboard
+![Dashboard](screenshots/dashboard.png)
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+### 🎮 Play Quiz
+![Play Quiz](screenshots/playquiz.png)
+
+### 📖 Read Questions
+![Read Questions](screenshots/readquestions.png)
