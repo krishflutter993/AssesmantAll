@@ -1,3 +1,6 @@
+import 'package:databas1/models/Question1.dart';
+
+import 'package:databas1/models/read_question.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -29,6 +32,27 @@ class DatabaseHelper {
         password TEXT
       )
     ''');
+
+    await db.execute('''
+         CREATE TABLE questions(
+         id INTEGER PRIMARY KEY AUTOINCREMENT,
+         question TEXT,
+         optionA TEXT,
+         optionB TEXT,
+         optionC TEXT,
+         optionD TEXT,
+         correct TEXT
+       );
+    ''');
+
+    await db.execute('''
+CREATE TABLE read_questions(
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  category TEXT,
+  question TEXT,
+  answer TEXT
+)
+''');
   }
 
   // --- USER CRUD ---
@@ -55,5 +79,37 @@ class DatabaseHelper {
       whereArgs: [email.toLowerCase()],
     );
     return res.isNotEmpty ? res.first : null;
+  }
+
+  // ---------- QUESTIONS CRUD ----------
+  Future<void> insertQuestion(Map<String, dynamic> q) async {
+    final dbClient = await database;
+    await dbClient.insert('questions', q);
+  }
+
+  Future<List<Question>> getAllQuestions() async {
+    final dbClient = await database;
+    final res = await dbClient.query('questions');
+    return res.map((e) => Question.fromMap(e)).toList();
+  }
+
+  Future<int> questionCount() async {
+    final dbClient = await database;
+    final res = await dbClient.rawQuery('SELECT COUNT(*) FROM questions');
+    return Sqflite.firstIntValue(res) ?? 0;
+  }
+
+  // ---------- READ QUESTIONS CRUD ----------
+  // INSERT
+  Future<void> insertReadQuestion(Map<String, dynamic> q) async {
+    final dbClient = await database;
+    await dbClient.insert('read_questions', q);
+  }
+
+  // GET ALL
+  Future<List<ReadQuestion>> getAllReadQuestions() async {
+    final dbClient = await database;
+    final res = await dbClient.query('read_questions');
+    return res.map((e) => ReadQuestion.fromMap(e)).toList();
   }
 }

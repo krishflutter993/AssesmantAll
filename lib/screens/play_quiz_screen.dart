@@ -1,171 +1,20 @@
-import 'package:databas1/screens/dashboard_screen.dart';
+import 'package:databas1/data/questions.dart';
+import 'package:databas1/db/database_helper.dart';
+import 'package:databas1/models/Question1.dart';
 import 'package:flutter/material.dart';
+
+import 'dashboard_screen.dart';
 
 class PlayQuizScreen extends StatefulWidget {
   const PlayQuizScreen({super.key});
+
   @override
   State<PlayQuizScreen> createState() => _PlayQuizScreenState();
 }
 
 class _PlayQuizScreenState extends State<PlayQuizScreen> {
-  final questions = [
-    {
-      'q':
-          'Which cat species has the longest canine teeth as compared to body size?',
-      'a': [
-        'Clouded Leopard',
-        'African Lion',
-        'Siberian Tiger',
-        'Indian Tiger',
-      ],
-      'correct': 'Clouded Leopard',
-    },
-    {
-      'q': 'What is the largest planet in our Solar System?',
-      'a': ['Earth', 'Jupiter', 'Saturn', 'Mars'],
-      'correct': 'Jupiter',
-    },
-    {
-      'q': 'Who wrote the play "Romeo and Juliet"?',
-      'a': [
-        'William Shakespeare',
-        'Charles Dickens',
-        'Jane Austen',
-        'Leo Tolstoy',
-      ],
-      'correct': 'William Shakespeare',
-    },
-    {
-      'q': 'What is the chemical symbol for Gold?',
-      'a': ['Ag', 'Au', 'Gd', 'Go'],
-      'correct': 'Au',
-    },
-    {
-      'q': 'Which country is known as the Land of the Rising Sun?',
-      'a': ['China', 'Japan', 'Thailand', 'South Korea'],
-      'correct': 'Japan',
-    },
-    {
-      'q': 'What is the capital of Australia?',
-      'a': ['Sydney', 'Melbourne', 'Canberra', 'Perth'],
-      'correct': 'Canberra',
-    },
-    {
-      'q': 'Which element has the atomic number 1?',
-      'a': ['Oxygen', 'Hydrogen', 'Helium', 'Carbon'],
-      'correct': 'Hydrogen',
-    },
-    {
-      'q': 'Who painted the Mona Lisa?',
-      'a': [
-        'Vincent van Gogh',
-        'Leonardo da Vinci',
-        'Pablo Picasso',
-        'Claude Monet',
-      ],
-      'correct': 'Leonardo da Vinci',
-    },
-    {
-      'q': 'Which planet is known as the Red Planet?',
-      'a': ['Mars', 'Venus', 'Mercury', 'Jupiter'],
-      'correct': 'Mars',
-    },
-    {
-      'q': 'Which is the longest river in the world?',
-      'a': ['Nile', 'Amazon', 'Yangtze', 'Mississippi'],
-      'correct': 'Nile',
-    },
-    {
-      'q': 'Who is known as the Father of Computers?',
-      'a': ['Alan Turing', 'Charles Babbage', 'Tim Berners-Lee', 'Steve Jobs'],
-      'correct': 'Charles Babbage',
-    },
-    {
-      'q': 'Which gas do plants absorb from the atmosphere?',
-      'a': ['Oxygen', 'Carbon Dioxide', 'Nitrogen', 'Hydrogen'],
-      'correct': 'Carbon Dioxide',
-    },
-    {
-      'q': 'What is the hardest natural substance on Earth?',
-      'a': ['Gold', 'Iron', 'Diamond', 'Quartz'],
-      'correct': 'Diamond',
-    },
-    {
-      'q': 'Which country hosted the 2016 Summer Olympics?',
-      'a': ['China', 'Brazil', 'UK', 'Russia'],
-      'correct': 'Brazil',
-    },
-    {
-      'q': 'Who discovered penicillin?',
-      'a': [
-        'Marie Curie',
-        'Alexander Fleming',
-        'Louis Pasteur',
-        'Gregor Mendel',
-      ],
-      'correct': 'Alexander Fleming',
-    },
-    {
-      'q': 'Which organ purifies blood in the human body?',
-      'a': ['Liver', 'Heart', 'Kidney', 'Lungs'],
-      'correct': 'Kidney',
-    },
-    {
-      'q': 'Which planet has the most moons?',
-      'a': ['Earth', 'Saturn', 'Jupiter', 'Mars'],
-      'correct': 'Saturn',
-    },
-    {
-      'q': 'Which country is famous for the Eiffel Tower?',
-      'a': ['Italy', 'France', 'Germany', 'Spain'],
-      'correct': 'France',
-    },
-    {
-      'q': 'What is the main gas in the Earth’s atmosphere?',
-      'a': ['Oxygen', 'Nitrogen', 'Carbon Dioxide', 'Hydrogen'],
-      'correct': 'Nitrogen',
-    },
-    {
-      'q': 'Who invented the telephone?',
-      'a': [
-        'Alexander Graham Bell',
-        'Thomas Edison',
-        'Nikola Tesla',
-        'Guglielmo Marconi',
-      ],
-      'correct': 'Alexander Graham Bell',
-    },
-    {
-      'q': 'Which continent is the Sahara Desert located in?',
-      'a': ['Asia', 'Africa', 'Australia', 'South America'],
-      'correct': 'Africa',
-    },
-    {
-      'q': 'Which organ is responsible for pumping blood in the human body?',
-      'a': ['Lungs', 'Heart', 'Kidneys', 'Brain'],
-      'correct': 'Heart',
-    },
-    {
-      'q': 'Who is known as the “Iron Man of India”?',
-      'a': [
-        'Mahatma Gandhi',
-        'Sardar Vallabhbhai Patel',
-        'Jawaharlal Nehru',
-        'Subhas Chandra Bose',
-      ],
-      'correct': 'Sardar Vallabhbhai Patel',
-    },
-    {
-      'q': 'Which is the smallest continent by land area?',
-      'a': ['Europe', 'Australia', 'Antarctica', 'South America'],
-      'correct': 'Australia',
-    },
-    {
-      'q': 'Which vitamin is produced when a person is exposed to sunlight?',
-      'a': ['Vitamin A', 'Vitamin B12', 'Vitamin D', 'Vitamin C'],
-      'correct': 'Vitamin D',
-    },
-  ];
+  List<Question> quizQuestions = [];
+  bool isLoading = true;
 
   int index = 0;
   int score = 0;
@@ -173,29 +22,40 @@ class _PlayQuizScreenState extends State<PlayQuizScreen> {
   Color? answerColor;
   bool answered = false;
 
-  void _nextQuestion() {
-    if (selected == questions[index]['correct']) score += 5;
+  @override
+  void initState() {
+    super.initState();
+    loadQuestions();
+  }
 
-    if (index < questions.length - 1) {
-      // next question
+  void loadQuestions() async {
+    final db = DatabaseHelper();
+    quizQuestions = (await db.getAllQuestions()).cast<Question>();
+    setState(() => isLoading = false);
+  }
+
+  void _nextQuestion() {
+    if (selected == quizQuestions[index].correct) {
+      score += 5;
+    }
+
+    if (index < quizQuestions.length - 1) {
       setState(() {
         index++;
         selected = null;
-        answerColor = null;
         answered = false;
+        answerColor = null;
       });
     } else {
-      // quiz finished
       showDialog(
         context: context,
         barrierDismissible: false,
         builder: (_) => AlertDialog(
-          title: const Text('Quiz Completed!'),
-          content: Text('Your final score: $score / ${questions.length}'),
+          title: const Text('Quiz Completed'),
+          content: Text('Score: $score / ${quizQuestions.length * 5}'),
           actions: [
             TextButton(
               onPressed: () {
-                Navigator.pop(context);
                 Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(builder: (_) => const DashboardScreen()),
@@ -211,9 +71,16 @@ class _PlayQuizScreenState extends State<PlayQuizScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final q = questions[index];
+    if (isLoading) {
+      return const Scaffold(body: Center(child: CircularProgressIndicator()));
+    }
+
+    final q = quizQuestions[index];
+    final options = [q.optionA, q.optionB, q.optionC, q.optionD];
+
     return Scaffold(
-      backgroundColor: const Color(0xFF9CCC65),
+      backgroundColor: const Color.fromARGB(255, 25, 139, 61),
+      appBar: AppBar(title: const Text('Play Quiz')),
       body: SafeArea(
         child: Center(
           child: Container(
@@ -260,7 +127,7 @@ class _PlayQuizScreenState extends State<PlayQuizScreen> {
                 const SizedBox(height: 20),
                 // Question text
                 Text(
-                  q['q'] as String,
+                  q.question,
                   style: const TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
@@ -269,8 +136,7 @@ class _PlayQuizScreenState extends State<PlayQuizScreen> {
                 const SizedBox(height: 10),
 
                 // Options
-                ...List.generate((q['a'] as List).length, (i) {
-                  final opt = (q['a'] as List<String>)[i];
+                ...options.map((opt) {
                   return RadioListTile<String>(
                     title: Text(opt),
                     value: opt,
@@ -284,8 +150,9 @@ class _PlayQuizScreenState extends State<PlayQuizScreen> {
                         answered = true;
 
                         // Agar answer sahi hai
-                        if (value == q['correct']) {
+                        if (selected == quizQuestions[index].correct) {
                           answerColor = Colors.green.shade100;
+                          score += 5;
                         } else {
                           answerColor = Colors.red.shade100;
                         }
